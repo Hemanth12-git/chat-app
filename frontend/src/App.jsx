@@ -22,6 +22,12 @@ const App = () => {
     checkAuth();
   }, [checkAuth]);
 
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("chat-theme") || "coffee";
+    document.documentElement.setAttribute("data-theme", storedTheme);
+  }, []);
+  
+
   if (isCheckingAuth && !authUser)
     return (
       <div className="flex items-center justify-center h-screen">
