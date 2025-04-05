@@ -19,7 +19,7 @@ class AuthController {
         const existingUser = await User.findOne({ email: data.email }).select('-password');
 
         if (existingUser) {
-          response = { status: 400, body: { message: "User with this email already exists" } };
+          response = { status: 400, body: { message: "Email already exists" } };
         } else {
           const salt = await bcrypt.genSalt(10);
           const hashedPassword = await bcrypt.hash(data.password, salt);
@@ -35,7 +35,7 @@ class AuthController {
           response = {
             status: 201,
             body: {
-              message: "User Created Successfully",
+              message: "User created successfully",
               data: {
                 _id: newUser._id,
                 fullName: newUser.fullName,
@@ -64,7 +64,7 @@ class AuthController {
       if (error) {
         response = { status: 400, body: { message: "Validation failed", errors: error } };
       } else {
-        const user = await User.findOne({ email: data.email, password: data.password }).select('-password');
+        const user = await User.findOne({ email: data.email });
 
         if (!user) {
           response = { status: 400, body: { message: "Invalid credentials" } };
@@ -102,14 +102,13 @@ class AuthController {
 
     try {
       res.cookie("platform-token", "", { maxAge: 0 });
-
-      response = { status: 200, body: { message: "Logout successful" } };
+      response = { status: 200, body: { message: "Logged out successfully" } };
     } catch (error) {
       response = { status: 500, body: { message: "Internal Server Error", error: error.message } };
     }
 
     res.status(response.status).json(response.body);
-    next(); // Ensure the request properly completes in middleware chains
+    next();
   }
 
   static async updateProfileController(req, res) {
@@ -134,7 +133,12 @@ class AuthController {
             status: 200,
             body: {
               message: "Profile updated successfully",
-              data: { profilePic: updatedUser.profilePic },
+              data: {
+                _id: updatedUser._id,
+                fullName: updatedUser.fullName,
+                email: updatedUser.email,
+                profilePic: updatedUser.profilePic,
+              },
             },
           };
         } else {
@@ -150,15 +154,25 @@ class AuthController {
 
   static checkAuth(req, res) {
     let response;
-    
+
     try {
       if (!req.user) {
         response = { status: 401, body: { message: "Unauthorized" } };
       } else {
-        response = { status: 200, body: { message: "Authenticated", data: req.user } };
+        response = {
+          status: 200,
+          body: {
+            message: "Authenticated",
+            data: {
+              _id: req.user._id,
+              fullName: req.user.fullName,
+              email: req.user.email,
+              profilePic: req.user.profilePic,
+            },
+          },
+        };
       }
     } catch (error) {
-      console.log("Error in checkAuth controller:", error.message);
       response = { status: 500, body: { message: "Internal Server Error", error: error.message } };
     }
 
