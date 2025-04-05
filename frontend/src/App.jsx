@@ -21,11 +21,6 @@ const App = () => {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("chat-theme") || "coffee";
-    document.documentElement.setAttribute("data-theme", storedTheme);
-  }, []);
   
 
   if (isCheckingAuth && !authUser)
@@ -36,7 +31,7 @@ const App = () => {
     );
 
   return (
-    <div data-theme={theme}>
+    <>
       <Navbar />
 
       <Routes>
@@ -48,7 +43,7 @@ const App = () => {
       </Routes>
 
       <Toaster />
-    </div>
+    </>
   );
 };
 export default App;

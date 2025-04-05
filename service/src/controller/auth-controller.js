@@ -140,6 +140,8 @@ class AuthController {
                 fullName: updatedUser.fullName,
                 email: updatedUser.email,
                 profilePic: updatedUser.profilePic,
+                createdAt: updatedUser.createdAt,
+                updatedAt: updatedUser.updatedAt,
               },
             },
           };
