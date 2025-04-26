@@ -1,0 +1,20 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix service && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix service"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hemanth12-git/chat-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hemanth12-git/chat-app/issues"
+  },
+  "homepage": "https://github.com/Hemanth12-git/chat-app#readme",
+  "description": ""
+}
