@@ -1,4 +1,4 @@
-import Navbar from "./components/Navbar";
+import NavBar from './components/NavBar.jsx';
 
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
@@ -32,7 +32,7 @@ const App = () => {
 
   return (
     <>
-      <Navbar />
+      <NavBar />
 
       <Routes>
         <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
