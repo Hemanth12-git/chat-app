@@ -31,12 +31,16 @@ class SocketServer {
   static getReceiverSocketId(userId) {
     return SocketServer.userSocketMap[userId];
   }
+
+  static getIoInstance() {
+    return SocketServer.io;
+  }
 }
 
 module.exports = {
-  io: SocketServer.io,
   app: SocketServer.app,
   server: SocketServer.server,
   getReceiverSocketId: SocketServer.getReceiverSocketId,
+  getIoInstance: SocketServer.getIoInstance,
   SocketServer,
 };

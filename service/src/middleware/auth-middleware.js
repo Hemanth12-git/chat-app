@@ -5,7 +5,10 @@ const protectRoutes = async (req, res, next) => {
     let response;
 
     try {
-        const jwtToken = req.cookies?.['platform-token'];
+
+        const authHeader = req.headers['authorization'];
+        const jwtToken = authHeader && authHeader.split(' ')[1];
+
         if (!jwtToken) {
             response = { status: 401, body: { message: "Unauthorized: No token provided" } };
         } else {

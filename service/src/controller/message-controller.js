@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const Message = require("../models/message");
 const cloudinary = require("../lib/cloudinary");
-const { getReceiverSocketId, io } = require("../lib/socket");
+const { getReceiverSocketId, getIoInstance } = require("../lib/socket");
 
 class MessageController {
   static async getUsersForSidebar(req, res) {
@@ -65,7 +65,9 @@ class MessageController {
       await newMessage.save();
 
       const receiverSocketId = getReceiverSocketId(receiverId);
-      if (receiverSocketId) {
+      const io = getIoInstance();
+
+      if (receiverSocketId && io) {
         io.to(receiverSocketId).emit("newMessage", newMessage);
       }
 

@@ -30,12 +30,13 @@ class AuthController {
             password: hashedPassword,
           });
 
-          generateToken(newUser._id, res);
+          const token = generateToken(newUser._id, res);
 
           response = {
             status: 201,
             body: {
               message: "User created successfully",
+              token: token,
               data: {
                 _id: newUser._id,
                 fullName: newUser.fullName,
@@ -74,11 +75,12 @@ class AuthController {
           if (!isMatch) {
             response = { status: 400, body: { message: "Invalid credentials" } };
           } else {
-            generateToken(user._id, res);
+            const token = generateToken(user._id, res);
             response = {
               status: 200,
               body: {
                 message: "Login successful",
+                token: token,
                 data: {
                   _id: user._id,
                   fullName: user.fullName,
@@ -172,6 +174,8 @@ class AuthController {
               fullName: req.user.fullName,
               email: req.user.email,
               profilePic: req.user.profilePic,
+              createdAt: req.user.createdAt,
+              updatedAt: req.user.updatedAt,
             },
           },
         };

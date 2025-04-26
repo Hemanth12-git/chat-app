@@ -12,6 +12,8 @@ const { app, server, SocketServer } = require("./lib/socket");
 const PORT = process.env.PORT || 5000;
 const __dirnameBase = path.resolve();
 
+SocketServer.initialize();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -31,8 +33,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirnameBase, "../frontend", "dist", "index.html"));
   });
 }
-
-SocketServer.initialize();
 
 dbConnect()
   .then(() => {
